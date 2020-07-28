@@ -4,23 +4,13 @@ include "../vendor/autoload.php";
 use App\XMLtable;
 
 $t = new XMLtable();
-
-if (!empty($_POST['text'])) {
-    $t->save_xml($_POST['text']);
-}
-
-echo $t->read_xml('1.xml');
-print_r($_GET['name']);
-$t->del($_GET['name']);
+//$t->save_xml('1.xml',1,'dfd');
+//$t->save_xml('1.xml',2,'dfd');
+//$t->save_xml('1.xml',3,'dfd');
+//$t->save_xml('1.xml',5,'dfd');
+//$t->save_xml('1.xml',7,'dfd');
+//
+$t->del(1);
+print_r($t->readXML());
 ?>
-
-<html>
-<body>
-<form action="?" method="post">
-    <input type="text" name="text">
-    <input type="submit">
-
-</form>
-</body>
-</html>
 
