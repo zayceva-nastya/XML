@@ -7,6 +7,8 @@ namespace App;
 class XMLtable
 {
     public $file = '1.xml';
+    protected $data;
+    protected $arrayXml;
 
     public function __construct()
     {
@@ -15,72 +17,66 @@ class XMLtable
 
     public function readXML(): array
     {
-        $xml = (array)simplexml_load_file($this->file);
-        return $xml['msg'];
+        $this->arrayXml = (array)simplexml_load_file($this->file);
+        return $this->arrayXml['msg'];
     }
 
-    public function save_xml($file, $id, $text)
+    public function save_xml()
     {
 
+        $xml = "<?xml version=\"1.1\" encoding=\"UTF-8\"?>\n";
+        $xml .= "<tet>";
+        foreach ($this->data as $row) {
+            $xml .= "<msg>";
+            foreach ($row as $key => $value) {
+                $xml .= "<$key>$value</$key>";
+            }
+            $xml .= "</msg>\n";
+        }
+        $xml .= "</tet>";
+        file_put_contents($this->file, $xml);
 
-        $xml = "<msg><id>$id</id><text>$text</text></msg>\n";
+        return $this;
 
-        return file_put_contents($file, $xml, FILE_APPEND) . "</text>";
+    }
 
+    public function add($login, $password)
+    {
+
+        $this->data[] = [
+            'login' => $login,
+            'password' => $password,
+        ];
+        return $this;
     }
 
 //
-    public function del($id)
+public function checkUser($login){
+
+}
+    public function del($login)
     {
-        $arr = $this->readXML($this->file);
+        $arr = $this->arrayXml;
         foreach ($arr as $key) {
             foreach ($key as $value => $g) {
-                if ($g === $id) {
-                    unset($value);
+                if ($g === $login) {
+                    unset($key);
 
                 }
             }
-            return $arr;
+            return $this;
         }
 
     }
-    // public function read_xml($text)
-    // {
 
-    //     $file = file_get_contents($text);
+    public function edit($login, array $data = [])
+    {
+        $editData = [];
+        foreach ($this->data as $key => $value) {
+            $editData[] = " $key= $value";
+        }
 
-    //     $str = preg_match_all("/<text>(.*?)<\/text>/ius", $file, $match);
-
-    //     $arr = [];
-
-    //     foreach ($match[1] as $key => $value) {
-
-    //         $arr[$key]['text'] = $value;
-    //     }
-    //     $str = "<table>";
-    //     foreach ($arr as $key) {
-    //         $str .= "<tr>";
-    //         foreach ($key as $value) {
-    //             $str .= "<td>$value</td>";
-    //         }
-    //         $str .= "\t\t<td><a href='del.php?name=$value'>❌</a></td>\n";
-    //         $str .= "\t\t<td>\"<a href='edit.php?name=$value'>✏</td>\n";
-    //         $str .= "</tr> \n";
-    //     }
-
-    //     $str .= "</table>";
-
-    //     return $str;
-
-    // }
-
-    // public function edit(array $data)
-    // {
-    //     $editData = [];
-    //     foreach ($data as $key => $value) {
-    //         $editData[] = " `$key` = '$value' ";
-    //     }
-    //     return $this;
-    // }
+        return $this;
+    }
 
 }
