@@ -21,6 +21,7 @@ class XMLtable
         return $this->arrayXml['msg'];
     }
 
+
     public function save_xml()
     {
 
@@ -47,35 +48,35 @@ class XMLtable
             'login' => $login,
             'password' => $password,
         ];
+        file_put_contents($this->file, $this->data);
         return $this;
     }
 
-//
-public function checkUser($login){
-
-}
     public function del($login)
     {
-        $arr = $this->arrayXml;
+        $arr = $this->data;
         foreach ($arr as $key) {
-            foreach ($key as $value => $g) {
-                if ($g === $login) {
-                    unset($key);
+            foreach ($key as $value) {
+                if ($value === $login) {
+                  unset($arr[$key]);
 
                 }
             }
-            return $this;
-        }
 
+        }
+        return $this;
     }
 
-    public function edit($login, array $data = [])
+    public function edit($login, $editData)
     {
-        $editData = [];
-        foreach ($this->data as $key => $value) {
-            $editData[] = " $key= $value";
+        foreach ($this->data as &$key) {
+            foreach ($key as &$value) {
+                if ($value === $login) {
+                    $key['login'] = $editData[0];
+                    $key['password'] = $editData[1];
+                }
+            }
         }
-
         return $this;
     }
 
