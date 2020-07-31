@@ -4,6 +4,7 @@ include "../vendor/autoload.php";
 use App\XMLtable;
 
 $t = new XMLtable();
+
 $t->add('aaaaa','878656');
 $t->add('sdsdsd','878656');
 $t->edit('aaaaa',['hhh','123']);

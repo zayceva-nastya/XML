@@ -7,7 +7,7 @@ namespace App;
 class XMLtable
 {
     public $file = '1.xml';
-    protected $data;
+    // protected $data;
     protected $arrayXml;
 
     public function __construct()
@@ -15,10 +15,10 @@ class XMLtable
         $file = $this->file;
     }
 
-    public function readXML(): array
+    public function readXML()
     {
-        $this->arrayXml = (array)simplexml_load_file($this->file);
-        return $this->arrayXml['msg'];
+        $this->arrayXml = (array)simplexml_load_file($this->file)['msg'];
+        return $this;
     }
 
 
@@ -38,7 +38,6 @@ class XMLtable
         file_put_contents($this->file, $xml);
 
         return $this;
-
     }
 
     public function add($login, $password)
@@ -48,7 +47,7 @@ class XMLtable
             'login' => $login,
             'password' => $password,
         ];
-        file_put_contents($this->file, $this->data);
+
         return $this;
     }
 
@@ -58,11 +57,9 @@ class XMLtable
         foreach ($arr as $key) {
             foreach ($key as $value) {
                 if ($value === $login) {
-                  unset($arr[$key]);
-
+                    unset($arr[$key]);
                 }
             }
-
         }
         return $this;
     }
@@ -79,5 +76,4 @@ class XMLtable
         }
         return $this;
     }
-
 }

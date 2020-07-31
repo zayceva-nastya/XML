@@ -1,1 +1,11 @@
-ArrayArray
+<?xml version="1.1" encoding="UTF-8"?>
+<tet>
+    <msg>
+        <login>hhh</login>
+        <password>123</password>
+    </msg>
+    <msg>
+        <login>ooo</login>
+        <password>321</password>
+    </msg>
+</tet>
